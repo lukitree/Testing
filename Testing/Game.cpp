@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "RandomSet.h"
 
+#include <iostream>
+
 Game::Game()
 	: mWindow(sf::VideoMode(800, 600), "SFML Application")
 	//: mWindow(sf::VideoMode(1920, 1080), "SFML Application", sf::Style::Fullscreen)
@@ -9,7 +11,7 @@ Game::Game()
 
 	mWindow.setMouseCursorVisible(false);
 
-	int boxCount = 100;
+	int boxCount = 500;
 	for (int i = 0; i < boxCount; ++i)
 	{
 		boxes.push_back(BOX(new Box()));
@@ -73,13 +75,9 @@ void Game::processEvents()
 void Game::update(sf::Time dt)
 {
 	for (auto& i : boxes)
+	{
 		handleWindowBorder(*i);
 
-	for (auto& i : boxes)
-		i->mouseGravity(mWindow, dt);
-
-	for (auto& i : boxes)
-	{
 		if (i->getMagnitude() < 2 && i->shape.getPosition().y > mWindow.getSize().y * .98f)
 			do
 			{
@@ -191,12 +189,12 @@ void Game::handleCollisions()
 				sf::Vector2f velo1 = boxes.at(i)->getVelocity();
 				sf::Vector2f velo2 = boxes.at(ii)->getVelocity();
 
-				const float MODIFIER = .95;
+				const float MODIFIER = .98;
 				velo1.x *= MODIFIER;
-				velo1.y *= MODIFIER;
-
 				velo2.x *= MODIFIER;
+
 				velo2.y *= MODIFIER;
+				velo1.y *= MODIFIER;
 
 				boxes.at(i)->setVelocity(velo2);
 				boxes.at(ii)->setVelocity(velo1);
