@@ -96,43 +96,7 @@ void Game::update(sf::Time dt)
 
 void Game::render()
 {
-	// Start asshattery
-	const int every = 60;
-	static int i = every;
-	static int ii = 1;
-	static bool flip = false;
-	static bool flip2 = false;
-	static int diff = 0;
-	if (i <= 0)
-	{
-		if (flip)
-		{
-			mWindow.clear(sf::Color::Black);
-		}
-		else
-		{
-			const int change = 1;
-			diff = 32;
-			mWindow.clear(sf::Color::Black + sf::Color(diff, diff, diff, diff));
-			if (flip2)
-				diff -= change;
-			else
-				diff += change;
-		}
-		if (ii == 0)
-		{
-			i = every;
-			flip = !flip;
-			ii = 3;
-		}
-		--ii;
-	}
-	--i;
-	if (diff >= 255 || diff < 0)
-		flip2 = !flip2;
-	// End asshattery
-
-	mWindow.clear();
+	//mWindow.clear();
 	for (auto& i : boxes)
 	{
 		mWindow.draw(*i);
