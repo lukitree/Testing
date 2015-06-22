@@ -14,7 +14,7 @@ Game::Game()
 	int boxCount = 500;
 	for (int i = 0; i < boxCount; ++i)
 	{
-		boxes.push_back(BOX(new Box(1.f)));
+		boxes.push_back(BOX(new Box(RND::Int(1,25))));
 	}
 
 	texture.loadFromFile("resources/textures/face.png");
