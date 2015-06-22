@@ -5,7 +5,8 @@
 
 Game::Game()
 	//: mWindow(sf::VideoMode(800, 600), "SFML Application")
-	: mWindow(sf::VideoMode(1920, 1080), "SFML Application", sf::Style::Fullscreen)
+	: mWindow(sf::VideoMode::getDesktopMode(), "SFML Application", sf::Style::Fullscreen)
+	, paused(false)
 {
 	TimePerFrame = sf::seconds(1.f / 60.f);
 
@@ -65,6 +66,8 @@ void Game::processEvents()
 				for (auto& i : boxes)
 					reset(*i);
 				break;
+			case sf::Keyboard::Space:
+				paused = !paused;
 			}
 		}
 		break;
@@ -74,29 +77,32 @@ void Game::processEvents()
 
 void Game::update(sf::Time dt)
 {
-	for (auto& i : boxes)
+	if (!paused)
 	{
-		handleWindowBorder(*i);
+		for (auto& i : boxes)
+		{
+			handleWindowBorder(*i);
 
-		if (i->getMagnitude() < 2 && i->shape.getPosition().y > mWindow.getSize().y * .98f)
-			do
-			{
-				i->setVelocity({ (float)RND::Int(-16, 16), (float)RND::Int(-16, 0) });
-			} while (std::abs(i->getVelocity().x) < 4);
-		i->checkOnGround(mWindow.getSize().y - i->shape.getSize().y / 2);
-			
-		if (i->isOnGround())
-			i->shape.setPosition({ (float)RND::Int(0, 1920), 0.f });
+			if (i->getMagnitude() < 2 && i->shape.getPosition().y > mWindow.getSize().y * .98f)
+				do
+				{
+					i->setVelocity({ (float)RND::Int(-16, 16), (float)RND::Int(-16, 0) });
+				} while (std::abs(i->getVelocity().x) < 4);
+			i->checkOnGround(mWindow.getSize().y - i->shape.getSize().y / 2);
+				
+			if (i->isOnGround())
+				i->shape.setPosition({ (float)RND::Int(0, 1920), 0.f });
+		}
+		handleCollisions();
+
+		for (auto& i : boxes)
+			i->update(dt);
 	}
-	handleCollisions();
-
-	for (auto& i : boxes)
-		i->update(dt);
 }
 
 void Game::render()
 {
-	//mWindow.clear();
+	mWindow.clear();
 	for (auto& i : boxes)
 	{
 		mWindow.draw(*i);
