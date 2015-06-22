@@ -23,4 +23,6 @@ private:
 
 	std::vector<BOX>	boxes;
 	sf::Texture		texture;
+
+	bool			paused;
 };
