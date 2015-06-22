@@ -8,7 +8,7 @@
 PhysicsEngine::PhysicsEngine(sf::Vector2f& velocity)
 	: pVelocity(velocity)
 	, GRAVITY(9.8f)
-	, DRAG(1.0f)
+	, DRAG(0.1f)
 	, FRICTION(DRAG * 2.f)
 	, onGround(false)
 {
