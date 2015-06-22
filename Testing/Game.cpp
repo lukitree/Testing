@@ -4,8 +4,8 @@
 #include <iostream>
 
 Game::Game()
-	: mWindow(sf::VideoMode(800, 600), "SFML Application")
-	//: mWindow(sf::VideoMode(1920, 1080), "SFML Application", sf::Style::Fullscreen)
+	//: mWindow(sf::VideoMode(800, 600), "SFML Application")
+	: mWindow(sf::VideoMode(1920, 1080), "SFML Application", sf::Style::Fullscreen)
 {
 	TimePerFrame = sf::seconds(1.f / 60.f);
 
@@ -14,7 +14,7 @@ Game::Game()
 	int boxCount = 500;
 	for (int i = 0; i < boxCount; ++i)
 	{
-		boxes.push_back(BOX(new Box()));
+		boxes.push_back(BOX(new Box(1.f)));
 	}
 
 	texture.loadFromFile("resources/textures/face.png");
