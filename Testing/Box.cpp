@@ -8,6 +8,9 @@ Box::Box()
 	: shape({ 25.f, 25.f})
 	, mPhysics(mVelocity)
 {
+	static unsigned int idAssign = 0;
+	ID = idAssign;
+	++idAssign;
 	shape.setOrigin({ shape.getSize().x / 2, shape.getSize().y / 2 });
 
 	switch (RND::Int(0, 5))
@@ -34,10 +37,10 @@ Box::Box()
 
 	shape.setFillColor(mColor);
 	mOriginalColor = mColor;
-	do
-	{
-		mRotation = RND::Int(-1, 1);
-	} while (mRotation == 0);
+	//do
+	//{
+	//	mRotation = RND::Int(-1, 1);
+	//} while (mRotation == 0);
 }
 
 Box::~Box()
@@ -48,12 +51,20 @@ void Box::update(sf::Time dt)
 {
 	//sf::Color transparency = sf::Color(0, 0, 0, std::min((int)mPhysics.getMagnitude() * 25, 255));
 	//sf::Color transparency = sf::Color(0, 0, 0, std::min((int)mPhysics.getMagnitude() * 25, 0));
+
+	if (mVelocity.x > 0)
+		mRotation = 1;
+	else if (mVelocity.x < 0)
+		mRotation = -1;
+	else
+		mRotation = 0;
+
 	sf::Color transparency = sf::Color(0, 0, 0, std::min((int)mPhysics.getMagnitude() * 25, 192));
 	shape.setFillColor(mColor - transparency);
 	shape.rotate((mPhysics.getMagnitude() * 100.f * dt.asSeconds()) * mRotation);
 	shape.move(mVelocity * 100.f * dt.asSeconds());
 	mPhysics.handleGravity(dt);
-	//mPhysics.handleDrag(dt);
+	mPhysics.handleDrag(dt);
 }
 
 void Box::setVelocity(sf::Vector2f velocity)

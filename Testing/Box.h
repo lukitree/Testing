@@ -28,6 +28,7 @@ public:
 	void				mouseGravity(sf::RenderWindow& win, sf::Time dt);
 
 	sf::RectangleShape		shape;
+	unsigned int			ID;
 
 private:
 	sf::Vector2f			mVelocity;
