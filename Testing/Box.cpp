@@ -4,8 +4,8 @@
 #include "RandomSet.h"
 
 
-Box::Box()
-	: shape({ 25.f, 25.f})
+Box::Box(float boxSize)
+	: shape({ boxSize, boxSize})
 	, mPhysics(mVelocity)
 {
 	static unsigned int idAssign = 0;
@@ -60,7 +60,7 @@ void Box::update(sf::Time dt)
 		mRotation = 0;
 
 	sf::Color transparency = sf::Color(0, 0, 0, std::min((int)mPhysics.getMagnitude() * 25, 192));
-	shape.setFillColor(mColor - transparency);
+	//shape.setFillColor(mColor - transparency);
 	shape.rotate((mPhysics.getMagnitude() * 100.f * dt.asSeconds()) * mRotation);
 	shape.move(mVelocity * 100.f * dt.asSeconds());
 	mPhysics.handleGravity(dt);

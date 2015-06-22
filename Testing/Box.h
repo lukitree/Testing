@@ -12,7 +12,7 @@ class Box :
 	public sf::Drawable
 {
 public:
-	Box();
+	Box(float boxSize);
 	~Box();
 
 	void				update(sf::Time dt);
